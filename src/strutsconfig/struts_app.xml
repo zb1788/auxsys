@@ -1,0 +1,29 @@
+<!DOCTYPE struts PUBLIC       
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"       
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="admin.webApp" extends="mydefault" namespace="/admin/webApp">
+	<action name="list" class="com.vcom.auxsys.action.WebAppAction" method="list">
+	    <result name="SUCCESS">list.jsp</result>
+	</action>
+	<action name="search" class="com.vcom.auxsys.action.WebAppAction" method="search">
+	    <result name="SUCCESS">list.jsp</result>
+	</action>
+	<action name="toAdd" class="com.vcom.auxsys.action.WebAppAction" method="toAdd">
+	  <result name="SUCCESS">edit.jsp?operFlag=0</result>
+	</action>
+	<action name="add" class="com.vcom.auxsys.action.WebAppAction" method="add">
+	  <result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	<action name="toEdit" class="com.vcom.auxsys.action.WebAppAction" method="toEdit">
+	  <result name="SUCCESS">edit.jsp?operFlag=1</result>
+	</action>
+	<action name="edit" class="com.vcom.auxsys.action.WebAppAction" method="edit">
+	  <result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	<action name="remove" class="com.vcom.auxsys.action.WebAppAction" method="remove">
+	  <result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	</package>
+</struts>
+

@@ -1,0 +1,80 @@
+<!DOCTYPE struts PUBLIC       
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"       
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="admin" extends="mydefault" namespace="/admin">
+		<global-results>
+			<result name="error">close.jsp?message=error</result>
+			<result name="login" type="redirect">/admin</result>
+		</global-results>
+		<!-- 用户 start-->
+		<action name="getRoleList" class="zzvcom.sys.action.RoleAction"
+			method="list">
+			<result name="success">Role_list.jsp</result>
+		</action>
+		<action name="toAddRole" class="zzvcom.sys.action.RoleAction" >
+			<result name="success">Role_AddOrEdit.jsp?operFlag=0</result>
+		</action>
+		<action name="saveRole" class="zzvcom.sys.action.RoleAction" method="save">
+			<result name="success">close.jsp</result>
+			<result name="error">close.jsp?message=error</result>
+		</action>
+		<action name="toEditRole" class="zzvcom.sys.action.RoleAction" method="edit">
+			<result name="success">Role_AddOrEdit.jsp?operFlag=1</result>
+		</action>
+		<action name="updateRole" class="zzvcom.sys.action.RoleAction" method="update">
+			<result name="success">close.jsp</result>
+			<result name="error">close.jsp?message=error</result>
+		</action>
+		<action name="deleteRoles" class="zzvcom.sys.action.RoleAction" method="delete">
+			<result name="success">close.jsp</result>
+		</action>
+		<action name="resetPwd" class="zzvcom.sys.action.RoleAction" method="resetPwd">
+			<result name="success">close.jsp</result>
+		</action>
+		<action name="toEditPwd" class="zzvcom.sys.action.RoleAction" >
+			<result name="success">User_EditPwd.jsp</result>
+		</action>
+		<action name="editPwd" class="zzvcom.sys.action.RoleAction" method="editPwd">
+			<result name="success">close.jsp</result>
+		</action>
+		<!-- 用户 end-->
+		<!-- 模块 start-->
+		<action name="getModuleList" class="zzvcom.sys.action.ModuleAction"
+			method="list">
+			<result name="success">Module_list.jsp</result>
+		</action>
+		<action name="toAddModule" class="zzvcom.sys.action.ModuleAction" >
+			<result name="success">Module_addOrEdit.jsp?operFlag=0</result>
+		</action>
+		<action name="saveModule" class="zzvcom.sys.action.ModuleAction" method="save">
+			<result name="success">close.jsp</result>
+			<result name="error">close.jsp?message=error</result>
+		</action>
+		<action name="toEditModule" class="zzvcom.sys.action.ModuleAction" method="edit">
+			<result name="success">Module_addOrEdit.jsp?operFlag=1</result>
+		</action>
+		<action name="updateModule" class="zzvcom.sys.action.ModuleAction" method="update">
+			<result name="success">close.jsp</result>
+			<result name="error">close.jsp?message=error</result>
+		</action>
+		<action name="deleteModule" class="zzvcom.sys.action.ModuleAction" method="delete">
+			<result name="success">close.jsp</result>
+		</action>
+		<!-- 模块 end-->
+		<action name="login" class="zzvcom.sys.action.LoginAction"
+			method="login">
+			<result name="error">User_Login.jsp</result>
+			<result name="success">/vcomframe.frame</result>
+		</action>
+		<action name="index" class="zzvcom.sys.action.LoginAction"
+			method="index">
+			<result name="success">User_Login.jsp</result>
+		</action>
+		<action name="quit" class="zzvcom.sys.action.LoginAction"
+			method="quit">
+			<result name="success">User_Login.jsp</result>
+		</action>
+	</package>
+</struts>
+

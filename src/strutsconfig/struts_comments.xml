@@ -1,0 +1,32 @@
+<!DOCTYPE struts PUBLIC       
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"       
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="admin.comments" extends="mydefault" namespace="/admin/comments">
+		<action name="getAll" class="com.vcom.auxsys.action.CommentsAction"
+			method="getAllCommentsLists">
+			<result name="success">Comments_List.jsp</result>
+		</action>
+		<action name="show" class="com.vcom.auxsys.action.CommentsAction"
+			method="getCommentsById">
+			<result name="success">Comments_Show.jsp</result>
+		</action>
+		<action name="del" class="com.vcom.auxsys.action.CommentsAction"
+			method="delCommentsByIds">
+			<result name="success">/admin/close.jsp</result>
+		</action>
+		<action name="check" class="com.vcom.auxsys.action.CommentsAction"
+			method="checkCommentsByIds">
+			<result name="success">/admin/close.jsp</result>
+		</action>
+		<action name="edit" class="com.vcom.auxsys.action.CommentsAction"
+			method="editCommentsById">
+			<result name="success">Comments_Edit.jsp</result>
+		</action>
+		<action name="save" class="com.vcom.auxsys.action.CommentsAction"
+			method="saveComments">
+			<result name="success">/admin/close.jsp</result>
+		</action>
+	</package>
+</struts>
+

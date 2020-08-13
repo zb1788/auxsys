@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="MysqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+		
+		<!-- 
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.boz.utils.MyMapper"/>
+        </plugin>
+		 -->
+		 
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.151.208:3306/db_yuwen"
+                        userId="vcom"
+                        password="yjt_yyl20160309">
+        </jdbcConnection>
+
+        <!-- 对于生成的pojo所在包 -->
+        <javaModelGenerator targetPackage="com.boz.bean" targetProject="src/main/java"/>
+
+		<!-- 对于生成的mapper所在目录 -->
+        <sqlMapGenerator targetPackage="com.boz.mapper" targetProject="src/main/java"/>
+
+		<!-- 配置mapper对应的接口文件 -->
+        <javaClientGenerator targetPackage="com.boz.mapper" targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+
+
+		<table tableName="yw_lib_cixing">
+            <domainObjectRenamingRule searchString="^YwLib" replaceString="" />
+            <!-- 去掉表字段的前缀 -->
+            <!--<columnRenamingRule searchString="^[^_]+" replaceString="" />-->
+			 <!--<property name="selectAllOrderByClause" value="birthday desc,age asc"/>-->
+			 <!--  <generatedKey column="id" sqlStatement="Mysql" identity="true"/> -->
+
+            <!-- 如果字段类型为txt需要转化为varchar，否则不会生成此字段的查询 -->
+            <columnOverride column="cizu" jdbcType="VARCHAR" />
+		</table>
+
+
+    </context>
+</generatorConfiguration>

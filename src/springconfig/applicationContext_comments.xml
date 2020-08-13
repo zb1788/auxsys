@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans default-autowire="byName" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="commentsAction" class="com.vcom.auxsys.action.CommentsAction">
+	</bean>
+
+	<bean id="commentsDao" class="com.vcom.auxsys.dao.impl.CommentsDaoImpl">
+		<property name="mongoManager" ref="mongoManager"></property>
+	</bean>
+</beans>

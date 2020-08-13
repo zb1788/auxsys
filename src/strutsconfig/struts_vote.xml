@@ -1,0 +1,42 @@
+<!DOCTYPE struts PUBLIC       
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"       
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="admin.vote" extends="mydefault" namespace="/admin/vote">
+	<action name="list" class="com.vcom.auxsys.action.VoteAction" method="list">
+	<result name="SUCCESS">list.jsp</result>
+	</action>
+	<action name="search" class="com.vcom.auxsys.action.VoteAction" method="search">
+	<result name="SUCCESS">list.jsp</result>
+	</action>
+	<action name="getVoteResults" class="com.vcom.auxsys.action.VoteAction" method="getAllVoteLists">
+		<result name="success">Vote_ResultList.jsp</result>
+	</action>
+	<action name="toAdd" class="com.vcom.auxsys.action.VoteAction" method="toAdd">
+	<result name="SUCCESS">/admin/close.jsp</result>
+	<result name="SUCCESS">edit.jsp?operFlag=0</result>
+	</action>
+	<action name="add" class="com.vcom.auxsys.action.VoteAction" method="add">
+	<result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	
+	<action name="delete" class="com.vcom.auxsys.action.VoteAction" method="delete">
+	<result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	
+	<action name="edit" class="com.vcom.auxsys.action.VoteAction" method="edit">
+	<result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	<action name="toEdit" class="com.vcom.auxsys.action.VoteAction" method="toEdit">
+	<result name="SUCCESS">edit.jsp?operFlag=1</result>
+	</action>
+	
+	<action name="manage" class="com.vcom.auxsys.action.VoteAction" method="manage">
+	<result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	<action name="toManage" class="com.vcom.auxsys.action.VoteAction" method="toManage">
+	<result name="SUCCESS">manage.jsp</result>
+	</action>
+	</package>
+</struts>
+

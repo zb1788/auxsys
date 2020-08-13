@@ -1,0 +1,79 @@
+<project name="AUXSYS_V2.x" default="all" basedir=".">
+    <property name="base.dir" value="." />
+    <property name="weblib" value="${base.dir}/AntBuildLib"/>
+    <property name="webapp.path" value="${base.dir}/auxsys.war"/>
+	<property name="project.name" value="auxsys"/>
+
+    <delete dir="${webapp.path}"/>
+    <mkdir dir="${webapp.path}"/>
+	<target name="mkwar" description="产生部署目录">
+		<echo message="产生部署目录，并复制文件..."/>
+        <copy toDir="${webapp.path}" failonerror="false">
+            <fileset dir="${base.dir}/WebRoot">
+            <include name="**"/>
+            <exclude name="**/*.svn"/>
+            </fileset>
+		</copy>
+    </target>
+	
+	<!--  编译到cms.war/WEB-INF/classes  -->
+    <target name="compile" depends="mkwar">
+    	<delete dir="${webapp.path}/WEB-INF/classes"/>
+		<echo message="编译源文件..."/>
+        <mkdir dir="${webapp.path}/WEB-INF/classes"/>
+        <mkdir dir="${webapp.path}/WEB-INF/lib"/>
+        <javac fork="true" destdir="${webapp.path}/WEB-INF/classes"
+               optimize="of"
+               debug="on" failonerror="false"
+               srcdir="${base.dir}/src"
+			   encoding="UTF-8"
+			   memoryinitialsize="256m"
+			   memorymaximumsize="512m"
+               excludes="**/*.svn" >
+            <classpath>
+                <pathelement location="${webapp.path}/WEB-INF/classes"/>
+                <fileset dir="${webapp.path}/WEB-INF/lib">
+                    <include name="*.jar" />
+                </fileset>
+				<fileset dir="${weblib}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+            <include name="**"/>
+            <exclude name="tags/**"/>
+        </javac>
+    </target>
+	
+    <target name="copy" depends="compile">
+		<echo message="复制源文件以外的资源文件..."/>
+        <copy toDir="${webapp.path}/WEB-INF/classes" failonerror="false">
+            <fileset dir="${base.dir}/src">
+                <include name="**"/>
+                <exclude name="**/*.svn"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+	</target>
+	
+	<target name="jar" depends="copy">
+		<copy toDir="${base.dir}/basetb/lib" failonerror="false">
+		 <fileset dir="${webapp.path}/WEB-INF/lib">
+			<include name="*.jar"/>
+     </fileset>
+    </copy>
+		<echo message="重打basetb的auxsys.jar包..."/>
+    	<delete file="${base.dir}/basetb/lib/auxsys.jar"/>  
+        <jar destfile="${base.dir}/basetb/lib/auxsys.jar">   
+            <fileset dir="${webapp.path}/WEB-INF/classes">
+                <include name="**/*.class"/>
+                <include name="**/*.properties"/>
+                <include name="META-INF/persistence.xml"/>
+								<exclude name="**/log4j.properties"/>
+            </fileset>
+        </jar>   
+  </target>
+	
+	<target name="all" depends="jar">
+		<echo message="结束!"/>
+	</target>
+</project>

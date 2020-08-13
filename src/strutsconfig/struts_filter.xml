@@ -1,0 +1,29 @@
+<!DOCTYPE struts PUBLIC       
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"       
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="admin.filter" extends="mydefault" namespace="/admin/filter">
+	<action name="list" class="com.vcom.auxsys.action.FilterAction" method="list">
+	 <result name="SUCCESS">list.jsp</result>
+	</action>
+	<action name="search" class="com.vcom.auxsys.action.FilterAction" method="search">
+	 <result name="SUCCESS">list.jsp</result>
+	</action>
+	<action name="toAdd" class="com.vcom.auxsys.action.FilterAction" method="toAdd">
+	  <result name="SUCCESS">edit.jsp?operFlag=0</result>
+	</action>
+	<action name="add" class="com.vcom.auxsys.action.FilterAction" method="add">
+	  <result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	<action name="toEdit" class="com.vcom.auxsys.action.FilterAction" method="toEdit">
+	  <result name="SUCCESS">edit.jsp?operFlag=1</result>
+	</action>
+	<action name="edit" class="com.vcom.auxsys.action.FilterAction" method="edit">
+	  <result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	<action name="remove" class="com.vcom.auxsys.action.FilterAction" method="remove">
+	  <result name="SUCCESS">/admin/close.jsp</result>
+	</action>
+	</package>
+</struts>
+

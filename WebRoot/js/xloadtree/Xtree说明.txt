@@ -1,0 +1,213 @@
+Xtree组件笔记
+
+1.XTREE简介：
+XTREE是一个基于AJAX实现的树形菜单。它的原理就是每次都只加载当前结点下的所有结点，而对开发人员来说，就是只需要按一定的格式，生成一段XML代码。XTREE可以自己定制每个结点的ICON和链接。XTREE是基于对象的，通过XTREE，你无需再自己生成HTML代码，而只要生成相应的JS 
+对象就可以了。
+2.官方网址：
+http://webfx.eae.net/dhtml/xtree/index.html，可以在这里下载到XTREE最新的版本，也有XTREE的演示的DEMO。
+3.XTREE的API：
+    
+XTREE的API很简单，就是一个抽象类WebFXTreeAbstractNode以及该抽象类的两个子类WebFXTree和WebFXTreeItem。这三个类的属性和构造函数，还有方法详见：http://webfx.eae.net/dhtml/xtree/api.html，上面写得很清晰。
+4.XTREE学习笔记
+    每个结点有一个状态叫做OPEN；如果结点为OPEN,则可以EXPAND;对于ITEM结点来说，永远返回FALSE;
+    toggle()就是切换，如果为展开的，就收起；如果为收起的，就展开；
+    XTREE生成的是静态树，它不能从XML中生成树，而是只能生成简单的静态的树，看构造函数的参数就可以知道【text】【action】
+    --------------------------------------------------------------
+    WebFXTreeAbstractNode:
+   
+    属性：
+    id:唯一标识
+    text: label
+    action: 链接
+    open: 标志位，boolean型，是否打开
+    icon: 图标
+    openIcon：打开时的图标
+    parentNode：父结点的Reference
+    childNodes: 子结点的Reference的集合
+   
+    方法：
+    indent():缩进
+    toggle():切换
+    callapse():收起
+    expand():展开
+    callapseAll():收起全部
+    expandAll():展开全部
+    expandChildren():展开子结点
+    callapseChildren():收起子结点
+    getNextSibling():取得下一个兄弟结点的Reference
+    getPreviousSibling():取得上一个兄弟结点的Reference
+    toString():生成HTML代码
+   
+    ------------------------------------------------------------------
+    WebFXTree:
+   
+    构造函数：new WebFXTree([text], [action], [behavior],[icon],[openIcon]);
+   
+    参数：
+    text:
+    action:
+    behavior:
+    icon:
+    openIcon:
+   
+    属性：
+    rendered 标志位，boolean类型，用于标记该树是否已经生成和显示。
+    WebFXTreeAbstractNode的所有属性
+   
+    方法：
+    getSelected():返回一个Reference，被选中的那个对象的Reference。
+    setBehavior(sBehavior): classic,explorer;
+    getBehavior():
+    WebFXTreeAbstractNode的所有方法
+    -------------------------------------------------------------------
+    WebFXTreeItem:
+    构造函数：
+    new WebFXTreeItem([text],[action],[parent],[icon],[openIcon]);
+   
+    属性：
+    WebFXTreeAbstractNode的所有属性
+   
+    方法：
+    getFirst():返回第一个子结点的Reference
+    getLast():返回嘴后一个子结点的Reference
+    
+__________________________________________________________________________________________
+   
+5.XLoadTree学习笔记：
+    XLoadTree与XTree的区别就在于，XTree只能生成静态树，而XLoadTree可以根据XML生成动态树。
+    
+XLoadTree是由Xtree而来的，主要有两个类：WebFXLoadTree和WebFXLoadTreeItem,其中，WebFXLoadTree继承自WebFXTree，WebFXLoadTreeItem继承自WebFXTreeItem
+    ---------------------------------------------------------------------
+    WebFXLoadTree:
+   
+    构造函数：
+    new WebFXLoadTree(sText, sXmlSrc, sAction, sBehavior, sIcon, sOpenIcon)
+   
+    参数：
+    sXmlSrc:展开时需要用到的XML文件
+    其余参数与WebFXTree一样
+   
+    属性：
+    src: XML源文件
+    loading: 标志位，boolean类型，表示正在加载XML文件
+    loaded: 标志位，boolean类型， 表示XML文件已将加载完毕
+    errorText: 错误描述
+    WebFXTree中的所有属性
+   
+    方法：
+    reload():重新加载XML文件
+    WebFXTree中的所有方法
+    -----------------------------------------------------------------------
+    WebFXLoadTreeItem:
+   
+    构造函数：
+    new WebFXLoadTreeItem(sText, sXmlSrc, sAction, eParent, sIcon, sOpenIcon)
+    参数：
+    eParent:可选，该结点要加入到的结点的Reference
+   
+    属性：
+    src: XML源文件
+    loading: 标志位，boolean类型，表示正在加载XML文件
+    loaded: 标志位，boolean类型， 表示XML文件已将加载完毕
+    errorText: 错误描述
+    WebFXTree中的所有属性
+   
+    方法：
+    reload():重新加载XML文件
+    WebFXTreeItem中的所有方法
+   
+    XML文件的格式：
+    
+xml 代码
+  <!ELEMENT tree (tree*)>  
+    <!ATTLIST tree   
+              text      CDATA   #REQUIRED   
+              src       CDATA   #IMPLIED   
+              action    CDATA   #IMPLIED   
+              icon      CDATA   #IMPLIED   
+              openIcon  CDATA   #IMPLIED>  
+           
+    XML文件的例子：
+   
+xml 代码
+  <tree>  
+     <tree text="Loaded Item 1" action="href://webfx.eae.net" />  
+     <tree text="Loaded Item 2">  
+      <tree text="Loaded Item 2.1" action="javascript:alert(2.1)" />  
+     </tree>  
+     <tree text="Load &quot;tree1.xml&quot;" src="tree1.xml" />  
+  </tree>  
+在项目里头用到了xtree.js组件，分析了一下它的源码，发现还不是protoType框架，但是用起来相当的方便，在此给大家分享一下：
+该组件是一个基于javascript封装的纯客户端组件，通过该组件API可以轻松的用很少的代码量完成一个树状导航菜单的构造工作，该组件完全按照OO思想封装，对于熟悉java的程序员来说很容易上手。
+可在http://webfx.eae.net/dhtml/xtree/官方网站下载该组件，包括一个核心的xtree.js文件，在要使用该组件的页面直接包含即可使用：
+<script type="text/javascript" src="/js/xtree.js"></script>
+该组件的主要类及属性如下：
+WebFXTreeAbstractNode：
+抽象基类，后面提到的WebFXTree和WebFXTreeItem类都继承自该基类
+      属性
+      属性名属性类型（js数据类型）描述
+      idNumber只读属性，节点的唯一ID
+      textString节点显示的标签名
+      actionString该节点对应的url连接
+      openBoolean节点是否展开（如果没有子节点会一直返回false）
+      iconString节点图标. 默认为xtree.js同级目录下images目录下的图象
+      openIconString节点折叠时的图标，默认为xtree.js同级目录下images目录下的图象
+      parentNodeReference父节点的引用
+      childNodesArray子节点数组
+
+ 
+      方法
+      方法名方法返回类型描述
+      add(oNode, 
+      [bNoIdent])Reference添加一个树节点（子树）到当前节点，包含两个参数，前一个为webfxtreeitem对象实例，后一个为可选boolean参数，设为true将防止在增加树节点时树的折叠操作，返回被加入节点的引用
+      indent()Void折叠操作
+      toggle()Void折叠/展示切换
+      expand()Void展开
+      collapse()Void折叠
+      expandAll()Void展开该节点及所有下级子节点.
+      collapseAll()Void折叠该节点及所有子节点
+      expandChildren()Void折叠该节点的所有子节点
+      toString()String构造树节点的Html代码
+WebFXTree：该类用于建立实际的树根，子树节点可通过WebFXTreeItem类实例的方式添加，继承WebFXTreeAbstractNode基类，拥有WebFXTreeAbstractNode的所有属性方法。
+      构造方法：new WebFXTree([text], [action])
+      参数名参数类型（js数据类型）描述
+      textString根节点显示标签
+      actionString根节点的url(可选参数)
+
+ 
+      属性
+      属性名属性类型（js数据类型）描述
+      renderedBoolean表明树是否已创建并渲染
+
+ 
+      方法
+      方法名方法返回类型描述
+      getSelected()Reference返回用户选择的节点实例.
+      setBehavior(sBehavior)Void默认为classic,如果设置为explore时可以使树节点展示看起来更像windows 
+      Explore
+      getBehavior()String返回classic/explore
+
+ 
+WebFXTreeItem：该类用于创建树节点，可以被添加到WebFxTree或者另一个WebFXTreeItem实例中，继承WebFXTreeAbstractNode类的所有属性和方法。
+ 
+      构造方法：WebFXTreeItem([text], [action], [parent], [icon], [openIcon])
+      参数名参数类型（js数据类型）描述
+      textString根节点显示标签
+      actionString根节点的url(可选参数)
+      parentReference父节点（可选参数）
+      iconString节点图标（可选参数）
+      openIconString节点展开时的图标（可选参数）
+
+ 
+      方法
+      方法名方法返回类型描述
+      getFirst()Reference返回一个子节点的引用
+      getLast()Reference返回最后一个子节点的引用
+
+ 
+了解以上XTree组件后，我们可以通过如下的代码实例来轻松的创建一颗树：
+var tree = new WebFXTree('Root'); tree.setBehavior('explorer'); 
+tree.icon = ' /images/notepad.gif'; tree.add(new WebFXTreeItem('1')); 
+var folder = new WebFXTreeItem('2') tree.add(folder); 
+var t21 = new WebFXTreeItem('2.1');
+document.write(tree);
